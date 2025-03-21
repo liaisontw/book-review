@@ -1,0 +1,33 @@
+0. 
+    i. Git commands
+        1. git pull --rebase origin main
+            git push origin main
+        2. git reset --hard
+        3. git push -f origin main
+    ii. php artisan commands
+        1. run: php artisan serve
+
+1. Models
+    i. php artisan make:model Book -m
+       Create app/Models/Book.php & 
+       (-m: database/migrations/[data]_create_books_table.php )
+       Book.php ==> create_books_table.php
+        ^^^^  single -> plural^^
+    ii. php artisan make:model Review -m
+       Create app/Models/Review.php & 
+       (-m: database/migrations/[data]_create_reviews_table.php )
+       Review.php ==> create_reviews_table.php
+        ^^^^  single -> plural^^
+
+2. 1-to-Many relationship
+    php .\artisan migrate:refresh
+    i. public function up(): void
+    {
+        Schema::create('reviews', function (Blueprint $table) {
+            ...
+            $table->unsignedBigInteger('book_id');
+            $table->foreign('book_id')->references('id')->on('books')
+                ->onDelete('cascade');
+            //Foreign key
+        });
+    }
