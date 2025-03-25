@@ -21,13 +21,29 @@
 
 2. 1-to-Many relationship
     php .\artisan migrate:refresh
-    i. public function up(): void
-    {
+    i. _create_reviews_table.php:
+    public function up(): void{
         Schema::create('reviews', function (Blueprint $table) {
-            ...
-            $table->unsignedBigInteger('book_id');
-            $table->foreign('book_id')->references('id')->on('books')
-                ->onDelete('cascade');
-            //Foreign key
+            $table->id();
+            //$table->unsignedBigInteger('book_id');
+            $table->text('review');
+            $table->unsignedTinyInteger('rating');
+            $table->timestamps();
+            //$table->foreign('book_id')->references('id')->on('books')
+            //    ->onDelete('cascade');
+            $table->foreignId('book_id')->constrained()->cascadeOnDelete();
         });
     }
+    app/Models/Book.php
+    class Book extends Model {
+        public function reivews(){
+            $this->hasMany(Review::class);
+        }
+    }
+    app/Models/Review.php
+    class Review extends Model{
+        public function books(){
+            $this->belongsTo(Book::class);
+        }
+    }
+
