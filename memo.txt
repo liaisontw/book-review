@@ -37,13 +37,33 @@
     app/Models/Book.php
     class Book extends Model {
         public function reivews(){
-            $this->hasMany(Review::class);
+            return $this->hasMany(Review::class);
         }
     }
     app/Models/Review.php
+    // Not public function books()
+
     class Review extends Model{
-        public function books(){
-            $this->belongsTo(Book::class);
+        
+        public function book(){
+            return $this->belongsTo(Book::class);
         }
     }
+
+3. Seeders
+    i. database/factories/BookFactory.php 
+       'title','author','created_at','updated_at'
+    &
+       database/factories/ReviewFactory.php
+       'book_id', 'review', 'rating',
+        'created_at', 'updated_at'
+
+    ii. database/seeders/DatabaseSeeders.php
+        Book::factory(33)->create()->each(function ($book) {
+            $numReviews = random_int(5, 30);
+            Review::factory()->count($numReviews)
+                ->good()/bad()/average() ->for($book) ->create();
+        });
+    iii. php .\artisan migrate:refresh
+
 

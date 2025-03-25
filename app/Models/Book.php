@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
@@ -10,6 +11,6 @@ class Book extends Model
 
     public function reivews()
     {
-        $this->hasMany(Review::class);
+        return $this->hasMany(Review::class);
     }
 }
